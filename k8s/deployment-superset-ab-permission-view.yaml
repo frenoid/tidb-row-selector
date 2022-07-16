@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: row-selector-superset-ab-permission
+  name: row-selector-superset-per-view
   namespace: db-stress
   labels:
     app: row-selector
     database: superset
-    table: ab_permission
+    table: ab_permission_per_view
 spec:
   replicas: 10
   selector:
     matchLabels:
       app: row-selector
       database: superset
-      table: ab_permission
+      table: ab_permission_per_view
   template:
     metadata:
       labels:
         app: row-selector
         database: superset
-        table: ab_permission
+        table: ab_permission_per_view
     spec:
       containers:
       - name: row-selector
@@ -37,6 +37,6 @@ spec:
           - name: MYSQL_DATABASE
             value: "superset"
           - name: MYSQL_TABLE 
-            value: "ab_permission"
+            value: "ab_permission_view"
           - name: QUERY_INTERVAL
             value: "1"
