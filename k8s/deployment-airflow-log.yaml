@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: row-selector-airflow
+  namespace: default
+  labels:
+    app: row-selector
+    database: airflow
+    table: log
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: row-selector
+      database: airflow
+      table: log
+  template:
+    metadata:
+      labels:
+        app: row-selector
+        database: airflow
+        table: log
+    spec:
+      containers:
+      - name: row-selector
+        image: frenoid/row-selector:v1
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: MYSQL_HOST
+            value: "tidb-norman-tidb.tidb-norman.svc.cluster.local"
+          - name: MYSQL_USER
+            value: "airflow"
+          - name: MYSQL_PASSWORD
+            value: "airflow"
+          - name: MYSQL_PORT
+            value: "4000"
+          - name: MYSQL_DATABASE
+            value: "airflow"
+          - name: MYSQL_TABLE 
+            value: "log"
+          - name: QUERY_INTERVAL
+            value: "1"
